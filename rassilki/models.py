@@ -36,11 +36,12 @@ class MailingMessage(models.Model):
         ('3', 'запустить'),
     )
 
-    send_time = models.TimeField(verbose_name='Send time', )
+    send_time = models.TimeField(verbose_name='Send time', null=True, default=None, )
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, default='daily')
     status = models.CharField(choices=FIRST_CHOICES, verbose_name='Status',
                                            default='3')
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, default=1)
+    client = models.ForeignKey(Client, verbose_name='Clients', on_delete=models.CASCADE)
+
 
     def __str__(self):
         return f"{self.body}"
@@ -89,15 +90,7 @@ class MailingMessage(models.Model):
     #     except Exception as e:
     #         print(f"Ошибка при отправке письма: {str(e)}")
     #
-    #         # лог записи об ошибке отправки
-    #         Log.objects.create(
-    #             log_status=Log.STATUS_FAILED,
-    #             log_client=self.client,
-    #             log_mailing=self,
-    #             log_server_response=f"Ошибка отправки письма: {str(e)}",
-    #         )
     #
-    #         return False  # Письмо не удалось отправить
     #
     class Meta:
         verbose_name = 'Рассылка'

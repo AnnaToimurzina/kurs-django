@@ -19,7 +19,6 @@ from celery import Task
 from rassilki.models import MailingMessage, Log
 
 
-
 class MailingTask(Task):
     autoretry_for = (SMTPException,)
     max_retries = 3
@@ -49,12 +48,12 @@ def send_mails() -> None:
         print(f"send_time для объекта {mailing_info.pk}: {mailing_info.send_time}")
 
     for mailing in ready_to_mail_list:
-        send_one_message(mailing)
+        send_one_message(mailing.pk)
 
 
 
-def send_one_message(mailing):
-
+def send_one_message(mailing_pk):
+    mailing = MailingMessage.objects.get(pk=mailing_pk)
     recipient_email = mailing.client.email
 
     try:
@@ -69,9 +68,10 @@ def send_one_message(mailing):
                 settings.EMAIL_HOST_PASSWORD,
 
             )
+            s = smtplib.SMTP_SSL(settings.EMAIL_HOST, settings.EMAIL_PORT)
+            s.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 
-
-
+            s.sendmail(settings.EMAIL_HOST_USER, [recipient_email], MIMEText.as_string())
             log = Log(
                     log_status=Log.STATUS_SUCCESSFUL,
                     log_client=mailing.client,

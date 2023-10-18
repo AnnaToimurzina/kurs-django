@@ -28,7 +28,7 @@ def send_mails() -> None:
     logging.info('функция стартовала')
     now = timezone.now()
 
-    ready_to_mail_list = MailingMessage.objects.filter(send_time='15:15')
+    ready_to_mail_list = MailingMessage.objects.filter(send_time='01:45')
     count = len(ready_to_mail_list)
 
     if count > 0:
@@ -37,7 +37,7 @@ def send_mails() -> None:
         print("Нет объектов для отправки.")
 
     for mailing in ready_to_mail_list:
-        send_one_message.apply_async(args=(mailing.pk,), countdown=0)
+        send_one_message.delay(mailing.pk)
 
 
 

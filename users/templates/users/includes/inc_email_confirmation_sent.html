@@ -1,0 +1,33 @@
+{% block title %}Email Confirmation Sent{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-success text-center" role="alert">
+                <h3 class="mb-4">Instructions Sent to Your Email</h3>
+                <p>We've just sent you an email with instructions on how to confirm your account. Please check your inbox and follow the steps provided.</p>
+            </div>
+            <p class="text-center">If you don't receive the email within a few minutes, please check your spam folder. If you still encounter issues <a href="#" class="btn btn-primary">Contact Us</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom CSS Styles */
+    .alert {
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+{% endblock %}
